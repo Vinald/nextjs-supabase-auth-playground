@@ -7,19 +7,29 @@ import { createClient } from "@/utils/supabase/client";
 import UserStatus from "@/components/UserStatus";
 
 export default function EmailPasswordTestPage() {
-  const supabase = createClient();
+  const [supabase] = useState(() => {
+    try {
+      return createClient();
+    } catch {
+      return null;
+    }
+  });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    supabase?.auth.getUser().then(({ data }) => setUser(data.user));
   }, [supabase]);
 
   async function handleSignUp(e: React.FormEvent) {
     e.preventDefault();
     setMessage(null);
+    if (!supabase) {
+      setMessage("Supabase isn't configured yet — see /test/status.");
+      return;
+    }
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) {
       setMessage(`Sign up error: ${error.message}`);
@@ -36,6 +46,10 @@ export default function EmailPasswordTestPage() {
   async function handleSignIn(e: React.FormEvent) {
     e.preventDefault();
     setMessage(null);
+    if (!supabase) {
+      setMessage("Supabase isn't configured yet — see /test/status.");
+      return;
+    }
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,

@@ -7,7 +7,13 @@ import { createClient } from "@/utils/supabase/client";
 import UserStatus from "@/components/UserStatus";
 
 export default function EmailOtpTestPage() {
-  const supabase = createClient();
+  const [supabase] = useState(() => {
+    try {
+      return createClient();
+    } catch {
+      return null;
+    }
+  });
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
   const [codeSent, setCodeSent] = useState(false);
@@ -15,12 +21,16 @@ export default function EmailOtpTestPage() {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    supabase?.auth.getUser().then(({ data }) => setUser(data.user));
   }, [supabase]);
 
   async function handleSendCode(e: React.FormEvent) {
     e.preventDefault();
     setMessage(null);
+    if (!supabase) {
+      setMessage("Supabase isn't configured yet — see /test/status.");
+      return;
+    }
     const { error } = await supabase.auth.signInWithOtp({ email });
     if (error) {
       setMessage(`Error sending code: ${error.message}`);
@@ -33,6 +43,10 @@ export default function EmailOtpTestPage() {
   async function handleVerifyCode(e: React.FormEvent) {
     e.preventDefault();
     setMessage(null);
+    if (!supabase) {
+      setMessage("Supabase isn't configured yet — see /test/status.");
+      return;
+    }
     const { data, error } = await supabase.auth.verifyOtp({
       email,
       token: code,

@@ -7,16 +7,26 @@ import { createClient } from "@/utils/supabase/client";
 import UserStatus from "@/components/UserStatus";
 
 export default function GoogleTestPage() {
-  const supabase = createClient();
+  const [supabase] = useState(() => {
+    try {
+      return createClient();
+    } catch {
+      return null;
+    }
+  });
   const [user, setUser] = useState<User | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => setUser(data.user));
+    supabase?.auth.getUser().then(({ data }) => setUser(data.user));
   }, [supabase]);
 
   async function handleSignIn() {
     setMessage(null);
+    if (!supabase) {
+      setMessage("Supabase isn't configured yet — see /test/status.");
+      return;
+    }
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
