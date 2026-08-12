@@ -12,7 +12,7 @@ export default function StatusPage() {
 
   useEffect(() => {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
     setUrlSet(Boolean(url));
     setKeySet(Boolean(key));
 
@@ -48,7 +48,7 @@ export default function StatusPage() {
 
       <section className="mb-6 space-y-2">
         <StatusRow label="NEXT_PUBLIC_SUPABASE_URL set" ok={urlSet} />
-        <StatusRow label="NEXT_PUBLIC_SUPABASE_ANON_KEY set" ok={keySet} />
+        <StatusRow label="NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY set" ok={keySet} />
         <StatusRow
           label="Supabase client can be created"
           ok={clientOk}
