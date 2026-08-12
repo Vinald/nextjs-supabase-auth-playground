@@ -28,9 +28,9 @@ export default function StatusPage() {
       note: "Customize the confirmation and magic link emails if you want branded copy. Works out of the box with Supabase's default templates.",
     },
     {
-      label: "SMS provider for Phone OTP",
-      path: "Authentication → Providers → Phone",
-      note: "Requires a Twilio, MessageBird, or Vonage account connected here before phone OTP sends real SMS.",
+      label: "Africa's Talking Send SMS hook (Phone OTP)",
+      path: "Authentication → Hooks → Send SMS hook",
+      note: "Deploy supabase/functions/send-sms-hook (supabase functions deploy send-sms-hook --no-verify-jwt), set its AFRICASTALKING_API_KEY and SEND_SMS_HOOK_SECRET secrets, then point this hook at the deployed function URL. Sandbox codes land in the Africa's Talking Simulator, not a real phone.",
     },
     {
       label: "Google OAuth credentials",

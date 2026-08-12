@@ -67,9 +67,15 @@ export default function PhoneOtpTestPage() {
       <h1 className="mt-2 mb-4 text-2xl font-bold">Phone OTP (SMS)</h1>
 
       <div className="mb-4 rounded-lg border border-amber-500 bg-amber-50 p-3 text-sm dark:bg-amber-950">
-        Phone OTP requires an SMS provider (Twilio, MessageBird, or Vonage)
-        configured in the Supabase dashboard under Authentication → Providers
-        → Phone. This will not send real SMS until that&apos;s set up.
+        Phone OTP is wired to Africa&apos;s Talking via a Supabase &quot;Send
+        SMS&quot; Auth Hook (Africa&apos;s Talking isn&apos;t a built-in
+        Supabase provider). The hook code lives in{" "}
+        <code className="font-mono text-xs">
+          supabase/functions/send-sms-hook
+        </code>{" "}
+        but still needs to be deployed and enabled — see /test/status for the
+        remaining steps. In sandbox mode, codes won&apos;t reach a real
+        handset; check the Africa&apos;s Talking Simulator instead.
       </div>
 
       {!user && !codeSent && (
