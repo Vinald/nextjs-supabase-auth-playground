@@ -10,8 +10,7 @@ export async function updateSession(request: NextRequest) {
     !process.env.NEXT_PUBLIC_SUPABASE_URL ||
     !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY
   ) {
-    // Supabase isn't configured yet (.env.local is empty) — skip session
-    // refresh instead of crashing every request. See /test/status.
+    // Unconfigured (.env.local empty) — skip refresh instead of crashing every request.
     return supabaseResponse;
   }
 
@@ -38,8 +37,7 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  // Do not run code between createServerClient and getClaims() —
-  // a mistake here can make users randomly logged out (session refresh relies on it).
+  // Keep this call right after createServerClient — it's what refreshes the session.
   await supabase.auth.getClaims();
 
   return supabaseResponse;
