@@ -5,7 +5,7 @@ description: Set up or debug Supabase Auth in a Next.js App Router project — e
 
 # Supabase Auth setup (Next.js App Router)
 
-Distilled from a working build-and-debug session: `github.com/Vinald/supabase_auth_test`
+Distilled from a working build-and-debug session: `github.com/Vinald/nextjs-supabase-auth-playground`
 (full chronological writeup in that repo's `AUTH_SETUP.md`). Use this as a
 runbook, not just reference — the troubleshooting table exists because every
 row was actually hit once.
